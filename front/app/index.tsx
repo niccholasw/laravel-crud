@@ -17,7 +17,7 @@ export default function Profile() {
 			</View>
 
 			<Pressable
-				onPress={() => router.push("/profile")}
+				onPress={() => router.push("/edit")}
 				className="flex-row justify-between items-center p-4 bg-white rounded-lg shadow-sm">
 				<View>
 					<Text className="text-lg font-semibold text-gray-800">
