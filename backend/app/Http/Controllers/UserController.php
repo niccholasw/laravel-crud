@@ -17,4 +17,13 @@ class UserController extends Controller
         $user = User::find($id);
         return response()->json($user);
     }
+
+    public function create()
+    {
+        $user = new User();
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->save();
+        return response()->json($user);
+    }
 }

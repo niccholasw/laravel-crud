@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import "../global.css";
-import { router } from "expo-router";
+import Users from "../components/Users";
+import PickImage from "../components/ImagePicker";
 
 export default function Profile() {
 	return (
@@ -13,19 +14,9 @@ export default function Profile() {
 				</View>
 			</View>
 			<View className="mt-6 space-y-3">
-				<Text>Wishes will be stacked below here</Text>
+				<Text className="text- font-bold text-gray-800">Sent wishes</Text>
 			</View>
-
-			<Pressable
-				onPress={() => router.push("/edit")}
-				className="flex-row justify-between items-center p-4 bg-white rounded-lg shadow-sm">
-				<View>
-					<Text className="text-lg font-semibold text-gray-800">
-						Edit this wish
-					</Text>
-				</View>
-				<Text className="text-blue-500">→</Text>
-			</Pressable>
+			<Users></Users>
 		</View>
 	);
 }

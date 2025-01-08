@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Pressable } from "react-native";
 import api from "../app/axios";
+import { router } from "expo-router";
 
 // Define the User interface
 interface User {
@@ -38,10 +39,23 @@ const UserList = () => {
 				data={users}
 				keyExtractor={(item) => item.id.toString()}
 				renderItem={({ item }) => (
-					<View className="p-4 my-2 bg-white rounded-lg shadow-md">
-						<Text>Name: {item.name}</Text>
-						<Text>Email: {item.email}</Text>
-					</View>
+					<>
+						<Text></Text>
+						<View className="p-4 my-2 bg-white rounded-lg shadow-md">
+							<Text>Name: {item.name}</Text>
+							<Text>Email: {item.email}</Text>
+						</View>
+						<Pressable
+							onPress={() => router.push("/edit")}
+							className="flex-row justify-between items-center p-4 bg-white rounded-lg shadow-sm">
+							<View>
+								<Text className="text-lg font-semibold text-gray-800">
+									Edit this wish
+								</Text>
+							</View>
+							<Text className="text-blue-500">→</Text>
+						</Pressable>
+					</>
 				)}
 			/>
 		</View>
