@@ -1,12 +1,10 @@
 import axios from "axios";
 
-// You can set the base URL of your Laravel backend here
 const api = axios.create({
-	baseURL: "http://localhost:8000/api", // Adjust this URL to your Laravel API
+	// baseURL: "http://localhost:8000/api",
+	baseURL: "http://10.0.2.2:8000/api",
 	headers: {
 		"Content-Type": "application/json",
-		// If you use a token-based authentication, add Authorization header here
-		// 'Authorization': `Bearer ${token}`,
 	},
 });
 

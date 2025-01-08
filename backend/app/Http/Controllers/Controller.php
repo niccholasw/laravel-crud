@@ -5,6 +5,6 @@ namespace App\Http\Controllers;
 abstract class Controller
 {
     public function index() {
-        return Post::all();
+        return null;
     }
 }

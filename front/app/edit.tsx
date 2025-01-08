@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import "../global.css";
 import { router } from "expo-router";
+import Users from "../components/Users";
 
 export default function Profile() {
 	return (
@@ -15,6 +16,7 @@ export default function Profile() {
 			<View className="mt-6 space-y-3">
 				<Text>Display here the fields to be edited</Text>
 			</View>
+			<Users></Users>
 		</View>
 	);
 }
