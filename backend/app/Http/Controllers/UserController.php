@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Wish;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -20,6 +22,7 @@ class UserController extends Controller
 
     public function create()
     {
+        Log::info('Creating new user request recieved:', request()->all());
         $user = new User();
         $user->name = request('name');
         $user->email = request('email');

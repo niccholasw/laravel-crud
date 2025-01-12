@@ -3,8 +3,19 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Wish;
+use Illuminate\Support\Facades\Log;
 class WishController extends Controller
 {
+
+    public function create()
+    {
+        Log::info('Received wish request:', request()->all());
+        $wish = new Wish();
+        $wish->name = request('name');
+        $wish->message = request('message');
+        $wish->save();
+        return response()->json($wish);
+    }
     public function updateProfilePicture(Request $request, Wish $wish)
     {
         $request->validate([
@@ -28,4 +39,5 @@ class WishController extends Controller
 
         return response()->json(['message' => 'No image uploaded'], 400);
     }
+
 }

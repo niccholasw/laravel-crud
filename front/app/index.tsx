@@ -1,9 +1,19 @@
 import { View, Text, Pressable } from "react-native";
 import "../global.css";
 import Users from "../components/Users";
-import PickImage from "../components/ImagePicker";
+import { router } from "expo-router";
+import { testConnection } from "../apiTest";
+import { useEffect } from "react";
 
 export default function Profile() {
+	useEffect(() => {
+		const runTest = async () => {
+			const result = await testConnection();
+			console.log("Connection test result:", result);
+		};
+
+		runTest();
+	}, []);
 	return (
 		<View className="flex-1 bg-white p-4">
 			<View className="bg-gray-50 rounded-xl p-6">
@@ -16,6 +26,9 @@ export default function Profile() {
 			<View className="mt-6 space-y-3">
 				<Text className="text- font-bold text-gray-800">Sent wishes</Text>
 			</View>
+			<Pressable onPress={() => router.push("/create")}>
+				<Text>Create wish</Text>
+			</Pressable>
 			<Users></Users>
 		</View>
 	);
