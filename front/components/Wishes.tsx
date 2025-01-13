@@ -3,14 +3,13 @@ import { View, Text, FlatList, Pressable } from "react-native";
 import api from "../app/axios";
 import { router } from "expo-router";
 
-// Define the User interface
 interface Wish {
 	id: number;
 	name: string;
 	message: string;
 }
 
-const UserList = () => {
+const WishesList = () => {
 	const [wishes, setWishes] = useState<Wish[]>([]);
 	const [loading, setLoading] = useState(true);
 
@@ -21,45 +20,69 @@ const UserList = () => {
 	const fetchUsers = async () => {
 		try {
 			const response = await api.get<Wish[]>("/wish");
+			console.log("Wishes data:", response.data); // Add this to verify data
 			setWishes(response.data);
-			setLoading(false);
 		} catch (error) {
 			console.error("Error fetching users:", error);
+		} finally {
 			setLoading(false);
 		}
 	};
 
+	const handleDelete = async (id: number) => {
+		try {
+			await api.delete(`/wish/${id}`);
+			setWishes((prevWishes) => prevWishes.filter((wish) => wish.id !== id));
+		} catch (error) {
+			console.error("Error deleting wish:", error);
+		}
+	};
+
 	if (loading) {
-		return <Text className="text-center">Loading...</Text>;
+		return (
+			<View className="flex-1 justify-center items-center">
+				<Text className="text-lg">Loading...</Text>
+			</View>
+		);
 	}
 
 	return (
-		<View className="flex-1 p-4">
-			<FlatList<Wish>
-				data={wishes}
-				keyExtractor={(item) => item.id.toString()}
-				renderItem={({ item }) => (
-					<>
-						<Text></Text>
-						<View className="p-4 my-2 bg-white rounded-lg shadow-md">
-							<Text>Name: {item.name}</Text>
-							<Text>Message: {item.message}</Text>
-						</View>
+		<FlatList<Wish>
+			data={wishes}
+			keyExtractor={(item) => item.id.toString()}
+			contentContainerClassName="p-4"
+			ItemSeparatorComponent={() => <View className="h-4" />}
+			renderItem={({ item }) => (
+				<View className="bg-white rounded-lg shadow-md overflow-hidden">
+					{/* Wish Content */}
+					<View className="p-4">
+						<Text className="text-lg font-semibold mb-2">{item.name}</Text>
+						<Text className="text-gray-600">{item.message}</Text>
+					</View>
+
+					{/* Action Buttons */}
+					<View className="flex-row border-t border-gray-100">
 						<Pressable
-							onPress={() => router.push("/edit")}
-							className="flex-row justify-between items-center p-4 bg-white rounded-lg shadow-sm">
-							<View>
-								<Text className="text-lg font-semibold text-gray-800">
-									Edit this wish
-								</Text>
-							</View>
-							<Text className="text-blue-500">→</Text>
+							onPress={() => router.push(`/${item.id}`)}
+							className="flex-1 p-3 bg-gray-50 items-center border-r border-gray-100">
+							<Text className="text-blue-500 font-medium">Edit</Text>
 						</Pressable>
-					</>
-				)}
-			/>
-		</View>
+
+						<Pressable
+							onPress={() => handleDelete(item.id)}
+							className="flex-1 p-3 bg-gray-50 items-center">
+							<Text className="text-red-500 font-medium">Delete</Text>
+						</Pressable>
+					</View>
+				</View>
+			)}
+			ListEmptyComponent={() => (
+				<View className="flex-1 justify-center items-center p-4">
+					<Text className="text-gray-500 text-lg">No wishes found</Text>
+				</View>
+			)}
+		/>
 	);
 };
 
-export default UserList;
+export default WishesList;

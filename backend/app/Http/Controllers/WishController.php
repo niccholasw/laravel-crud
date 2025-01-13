@@ -17,6 +17,15 @@ class WishController extends Controller
         return response()->json($wish);
     }
 
+    public function update($id)
+    {
+        $wish = Wish::find($id);
+        $wish->name = request('name');
+        $wish->message = request('message');
+        $wish->save();
+        return response()->json(['message' => 'Wish to updated successfully']);
+    }
+
     public function index()
     {
         $wishes = Wish::all();
@@ -28,6 +37,14 @@ class WishController extends Controller
         $wish = Wish::find($id);
         return response()->json($wish);
     }
+
+    public function destroy($id)
+    {
+        $wish = Wish::find($id);
+        $wish->delete();
+        return response()->json(['message' => 'Wish deleted successfully']);
+    }
+
     public function updateProfilePicture(Request $request, Wish $wish)
     {
         $request->validate([
