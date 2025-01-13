@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import api from "../app/axios";
+import { router } from "expo-router";
 
 interface FriendRequestData {
 	name: string;
@@ -29,6 +30,7 @@ const FriendRequestForm = () => {
 				// Reset form
 				setFormData({ name: "", message: "" });
 			}
+			router.push("/");
 		} catch (error) {
 			Alert.alert("Error", "Failed to send friend request. Please try again.");
 			console.error("Error sending friend request:", error);
