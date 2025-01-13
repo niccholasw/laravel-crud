@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
-import api from "../app/axios";
+import api from "./axios";
 import { router } from "expo-router";
 
 interface FriendRequestData {

@@ -29,7 +29,7 @@ export default function Profile() {
 
 			{/* Create Wish Button */}
 			<Pressable
-				onPress={() => router.push("/create")}
+				onPress={() => router.push("/friendRequestForm")}
 				className="flex-row items-center justify-center bg-blue-500 p-4 rounded-xl shadow-md">
 				<MaterialIcons name="add-circle" size={24} color="white" />
 				<Text className="ml-2 text-white font-semibold text-lg">
