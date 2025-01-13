@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            'http://10.0.2.2:8000/api/*',
+            'http://10.0.2.2:8000/api/wish',
+            'http://127.0.0.1:8000/api/wish'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

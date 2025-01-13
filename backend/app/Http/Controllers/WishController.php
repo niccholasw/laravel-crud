@@ -16,6 +16,18 @@ class WishController extends Controller
         $wish->save();
         return response()->json($wish);
     }
+
+    public function index()
+    {
+        $wishes = Wish::all();
+        return response()->json($wishes);
+    }
+
+    public function show($id)
+    {
+        $wish = Wish::find($id);
+        return response()->json($wish);
+    }
     public function updateProfilePicture(Request $request, Wish $wish)
     {
         $request->validate([

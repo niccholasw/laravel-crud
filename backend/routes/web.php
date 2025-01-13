@@ -10,11 +10,12 @@ Route::prefix('api')->group(function () {
     Route::get('/users/{id}', [UserController::class, 'show']);
     // Route::post('/wish', [WishController::class, 'create']);
     Route::post('/wish', [WishController::class, 'create']);
+    Route::get('/wish', [WishController::class, 'index']);
+    Route::get('/wish/{id}', [WishController::class, 'show']);
     Route::get('/test', function () {
         return response()->json(data: ['message' => 'API is working']);
     });
-});
-
-Route::get('/csrf-token', function () {
+    Route::get('/csrf-token', function () {
     return response()->json(['token' => csrf_token()]);
+});
 });
