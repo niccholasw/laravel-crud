@@ -6,7 +6,7 @@ use App\Models\Wish;
 use Illuminate\Support\Facades\Log;
 class WishController extends Controller
 {
-
+    // create friend wish
     public function create()
     {
         Log::info('Received wish request:', request()->all());
@@ -17,6 +17,7 @@ class WishController extends Controller
         return response()->json($wish);
     }
 
+    // update friend wish
     public function update($id)
     {
         $wish = Wish::find($id);
@@ -26,18 +27,21 @@ class WishController extends Controller
         return response()->json(['message' => 'Wish to updated successfully']);
     }
 
+    // get all friend wishes
     public function index()
     {
         $wishes = Wish::all();
         return response()->json($wishes);
     }
 
+    // get friend wish by id
     public function show($id)
     {
         $wish = Wish::find($id);
         return response()->json($wish);
     }
 
+    // delete friend wish
     public function destroy($id)
     {
         $wish = Wish::find($id);
