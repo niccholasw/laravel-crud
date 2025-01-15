@@ -15,6 +15,7 @@ class Wish extends Authenticatable
     protected $fillable = [
         'name',
         'message',
+        'profile_picture',
     ];
 }
 
