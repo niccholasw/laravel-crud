@@ -20,4 +20,3 @@ class Wish extends Authenticatable
 }
 
 
-// 'profile_picture',

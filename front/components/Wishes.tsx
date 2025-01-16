@@ -6,7 +6,7 @@ import { router } from "expo-router";
 interface Wish {
 	id: number;
 	name: string;
-	message: string;
+	message: string | null;
 	profile_picture: string;
 }
 
@@ -22,6 +22,13 @@ const WishesList = () => {
 		const imageUri = `http://10.0.2.2:8000/storage/${uri}`;
 		console.log("Image URI:", imageUri);
 		return imageUri;
+	};
+
+	const getMessage = (message: string | null): string => {
+		if (!message || !message.trim()) {
+			return "No message provided.";
+		}
+		return message.trim();
 	};
 
 	const fetchWishes = async () => {
@@ -61,7 +68,7 @@ const WishesList = () => {
 			ItemSeparatorComponent={() => <View className="h-4" />}
 			renderItem={({ item }) => (
 				<View className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-					{/* Profile section */}
+					{/* picture / name displayed */}
 					<View className="flex-row items-center p-4 border-b border-gray-100">
 						<Image
 							source={{ uri: getProfilePicture(item.profile_picture) }}
@@ -79,14 +86,14 @@ const WishesList = () => {
 						</View>
 					</View>
 
-					{/* Message content */}
+					{/* message displayed */}
 					<View className="p-4">
 						<Text className="text-gray-600 text-base leading-relaxed">
-							{item.message}
+							{getMessage(item.message)}
 						</Text>
 					</View>
 
-					{/* Action buttons */}
+					{/* edit / delete buttons */}
 					<View className="flex-row border-t border-gray-100">
 						<Pressable
 							onPress={() => router.push(`/${item.id}`)}
