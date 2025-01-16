@@ -45,6 +45,7 @@ export default function Edit() {
 			return;
 		}
 
+		// not sure why this isnt working??!!
 		if (message.trim() == "") {
 			setMessage("No message provided!");
 		}

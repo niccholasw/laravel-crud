@@ -26,6 +26,7 @@ const FriendRequestForm = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [image, setImage] = useState<string | null>(null);
 
+	// default image picker from expo
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -48,7 +49,6 @@ const FriendRequestForm = () => {
 		}
 
 		// using multipart/form-data to send the image as better for file transfer as opposed to json
-
 		try {
 			setIsLoading(true);
 
@@ -62,7 +62,6 @@ const FriendRequestForm = () => {
 			}
 
 			// sorting image uri to send to the backend
-
 			if (formData.profile_picture) {
 				const uriParts = formData.profile_picture.split(".");
 				const fileType = uriParts[uriParts.length - 1];
