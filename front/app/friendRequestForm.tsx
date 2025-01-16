@@ -47,12 +47,21 @@ const FriendRequestForm = () => {
 			return;
 		}
 
+		// using multipart/form-data to send the image as better for file transfer as opposed to json
+
 		try {
 			setIsLoading(true);
 
 			const data = new FormData();
 			data.append("name", formData.name);
-			data.append("message", formData.message);
+
+			if (formData.message == "") {
+				data.append("message", "No message provided!");
+			} else {
+				data.append("message", formData.message);
+			}
+
+			// sorting image uri to send to the backend
 
 			if (formData.profile_picture) {
 				const uriParts = formData.profile_picture.split(".");
@@ -76,7 +85,7 @@ const FriendRequestForm = () => {
 				setFormData({ name: "", message: "", profile_picture: "" });
 				setImage(null); // Reset image preview
 			}
-			router.push("/");
+			router.back();
 		} catch (error) {
 			Alert.alert("Error", "Failed to send friend request. Please try again.");
 			console.error("Error sending friend request:", error);

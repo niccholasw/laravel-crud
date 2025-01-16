@@ -24,13 +24,6 @@ const WishesList = () => {
 		return imageUri;
 	};
 
-	const getMessage = (message: string | null): string => {
-		if (!message || !message.trim()) {
-			return "No message provided.";
-		}
-		return message.trim();
-	};
-
 	const fetchWishes = async () => {
 		try {
 			const response = await api.get<Wish[]>("/wish");
@@ -89,7 +82,7 @@ const WishesList = () => {
 					{/* message displayed */}
 					<View className="p-4">
 						<Text className="text-gray-600 text-base leading-relaxed">
-							{getMessage(item.message)}
+							{item.message}
 						</Text>
 					</View>
 

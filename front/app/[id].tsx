@@ -45,12 +45,18 @@ export default function Edit() {
 			return;
 		}
 
+		if (message.trim() == "") {
+			setMessage("No message provided!");
+		}
+
+		console.log(name + " " + message);
+
 		try {
 			setSaving(true);
 			const response = await api.put(`/wish/${id}`, { name, message });
 			if (response.status === 200) {
 				Alert.alert("Success", "Wish updated successfully!");
-				router.back(); // navigate back to the previous screen
+				router.back();
 			}
 		} catch (error) {
 			Alert.alert("Error", "Failed to update the wish. Please try again.");
