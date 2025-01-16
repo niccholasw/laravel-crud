@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, Pressable } from "react-native";
+import { View, Text, FlatList, Pressable, Image } from "react-native";
 import api from "../app/axios";
 import { router } from "expo-router";
 
@@ -7,6 +7,7 @@ interface Wish {
 	id: number;
 	name: string;
 	message: string;
+	profile_picture: string;
 }
 
 const WishesList = () => {
@@ -14,13 +15,19 @@ const WishesList = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		fetchUsers();
+		fetchWishes();
 	}, []);
 
-	const fetchUsers = async () => {
+	const getProfilePicture = (uri: string) => {
+		const imageUri = `http://10.0.2.2:8000/storage/${uri}`;
+		console.log("Image URI:", imageUri);
+		return imageUri;
+	};
+
+	const fetchWishes = async () => {
 		try {
 			const response = await api.get<Wish[]>("/wish");
-			console.log("Wishes data:", response.data); // Add this to verify data
+			console.log("Wishes data:", response.data);
 			setWishes(response.data);
 		} catch (error) {
 			console.error("Error fetching users:", error);
@@ -40,8 +47,8 @@ const WishesList = () => {
 
 	if (loading) {
 		return (
-			<View className="flex-1 justify-center items-center">
-				<Text className="text-lg">Loading...</Text>
+			<View className="flex-1 justify-center items-center bg-gray-50">
+				<Text className="text-lg text-gray-600">Loading wishes...</Text>
 			</View>
 		);
 	}
@@ -50,35 +57,55 @@ const WishesList = () => {
 		<FlatList<Wish>
 			data={wishes}
 			keyExtractor={(item) => item.id.toString()}
-			contentContainerClassName="p-4"
+			contentContainerClassName="p-4 bg-gray-50"
 			ItemSeparatorComponent={() => <View className="h-4" />}
 			renderItem={({ item }) => (
-				<View className="bg-white rounded-lg shadow-md overflow-hidden">
-					{/* Wish Content */}
-					<View className="p-4">
-						<Text className="text-lg font-semibold mb-2">{item.name}</Text>
-						<Text className="text-gray-600">{item.message}</Text>
+				<View className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+					{/* Profile section */}
+					<View className="flex-row items-center p-4 border-b border-gray-100">
+						<Image
+							source={{ uri: getProfilePicture(item.profile_picture) }}
+							style={{
+								width: 56,
+								height: 56,
+								borderRadius: 28,
+							}}
+							className="bg-gray-100"
+						/>
+						<View className="ml-4 flex-1">
+							<Text className="text-lg font-semibold text-gray-900 p-4">
+								{item.name}
+							</Text>
+						</View>
 					</View>
 
-					{/* Action Buttons */}
+					{/* Message content */}
+					<View className="p-4">
+						<Text className="text-gray-600 text-base leading-relaxed">
+							{item.message}
+						</Text>
+					</View>
+
+					{/* Action buttons */}
 					<View className="flex-row border-t border-gray-100">
 						<Pressable
 							onPress={() => router.push(`/${item.id}`)}
-							className="flex-1 p-3 bg-gray-50 items-center border-r border-gray-100">
-							<Text className="text-blue-500 font-medium">Edit</Text>
+							className="flex-1 p-4 bg-gray-50 items-center border-r border-gray-100 active:bg-gray-100">
+							<Text className="text-blue-500 font-semibold">Edit</Text>
 						</Pressable>
-
 						<Pressable
 							onPress={() => handleDelete(item.id)}
-							className="flex-1 p-3 bg-gray-50 items-center">
-							<Text className="text-red-500 font-medium">Delete</Text>
+							className="flex-1 p-4 bg-gray-50 items-center active:bg-gray-100">
+							<Text className="text-red-500 font-semibold">Delete</Text>
 						</Pressable>
 					</View>
 				</View>
 			)}
 			ListEmptyComponent={() => (
-				<View className="flex-1 justify-center items-center p-4">
-					<Text className="text-gray-500 text-lg">No wishes found</Text>
+				<View className="flex-1 justify-center items-center p-8">
+					<Text className="text-gray-500 text-lg text-center">
+						No wishes found. Create your first wish!
+					</Text>
 				</View>
 			)}
 		/>

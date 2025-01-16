@@ -19,20 +19,20 @@ class WishController extends Controller
     // }
     public function create(Request $request)
     {
-        Log::info('Received wish request:', $request->all());
+        $path = null;
 
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
+
+        // save data
         $wish = new Wish();
         $wish->name = $request->name;
         $wish->message = $request->message;
-        $wish->profile_picture = $request->profile_picture;
-
+        $wish->profile_picture = $path; // Save path in database
         $wish->save();
 
-        return response()->json([
-            'message' => 'Wish created successfully',
-            'wish' => $wish,
-            'profile_picture_url' => $wish->profile_picture ? asset('storage/' . $wish->profile_picture) : null
-        ]);
+        return response()->json(['message' => 'Wish created successfully', 'data' => $wish], 200);
     }
 
     // update friend wish
